@@ -27,9 +27,9 @@ header .edition {
 }
 
 header .hint {
-  opacity: 0.6;
-  margin-top: 4px; /* moved closer to edition text */
   font-size: 0.9rem;
+  margin-top: 4px;
+  opacity: 0.7;
 }
 
 .viewer-wrapper {
@@ -80,7 +80,7 @@ header .hint {
 }
 
 .download-container {
-  margin-top: 15px;
+  margin-top: 15px; /* gap from main image */
 }
 
 .download-btn {
@@ -97,13 +97,14 @@ header .hint {
   background: #912823;
 }
 
+/* Thumbnails grid: 5 per row */
 .thumbnails {
-  display: flex;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
   gap: 10px;
   margin-top: 20px;
-  overflow-x: auto;
-  padding-bottom: 10px;
+  max-width: 90vw;
+  justify-items: center;
 }
 
 .thumbnail {
@@ -154,5 +155,11 @@ header .hint {
   .download-btn {
     padding: 6px 12px;
     font-size: 0.8rem;
+  }
+
+  /* Mobile: maybe 2 thumbnails per row */
+  .thumbnails {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
   }
 }
