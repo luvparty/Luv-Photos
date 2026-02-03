@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>LUV Edition 1</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+  <img src="assets/luv-logo.png" alt="LUV Logo" class="logo">
+  <p class="edition">Edition 1. 22.01.26</p>
+</header>
+
+<div class="viewer-wrapper">
+  <div class="viewer">
+    <button class="nav-btn" onclick="prev()">←</button>
+    <div class="main-image-container">
+      <img id="viewerImage" src="" alt="photo" loading="lazy">
+    </div>
+    <button class="nav-btn" onclick="next()">→</button>
+  </div>
+
+  <div class="download-container">
+    <a id="downloadBtn" href="" download class="download-btn">Download</a>
+  </div>
+
+  <div class="thumbnails" id="thumbnails"></div>
+</div>
+
+<p class="hint">Swipe like its Tinder to browse!</p>
+
+<script>
+const baseName = "LUV_220126";
+const totalPhotos = 65;
+let current = 1;
+const thumbCount = 5;
+
+const img = document.getElementById("viewerImage");
+const thumbsContainer = document.getElementById("thumbnails");
+const downloadBtn = document.getElementById("downloadBtn");
+
+function loadImage() {
+  // Fade effect
+  img.style.opacity = 0;
+  setTimeout(() => {
+    const fullPath = `photos/full/${baseName} (${current}).jpg`;
+    img.src = fullPath;
+    img.style.opacity = 1;
+
+    // Update download button
+    downloadBtn.href = fullPath;
+    downloadBtn.download = `${baseName} (${current}).jpg`;
+  }, 100);
+
+  updateThumbnails();
+}
+
+function next() {
+  if (current < totalPhotos) {
+    current++;
+    loadImage();
+  }
+}
+
+function prev() {
+  if (current > 1) {
+    current--;
+    loadImage();
+  }
+}
+
+function updateThumbnails() {
+  thumbsContainer.innerHTML = '';
+  let start = Math.max(current - Math.floor(thumbCount / 2), 1);
+  let end = Math.min(start + thumbCount - 1, totalPhotos);
+  start = Math.max(end - thumbCount + 1, 1);
+
+  for (let i = start; i <= end; i++) {
+    const thumb = document.createElement('img');
+    thumb.src = `photos/thumbs/${baseName} (${i}).jpg`;
+    thumb.className = 'thumbnail';
+    thumb.loading = 'lazy';
+    thumb.alt = `Photo ${i}`;
+    if (i === current) thumb.classList.add('active');
+    thumb.addEventListener('click', () => {
+      current = i;
+      loadImage();
+    });
+    thumbsContainer.appendChild(thumb);
+  }
+}
+
+// Mobile swipe support
+let touchStartX = 0;
+let touchEndX = 0;
+const viewerWrapper = document.querySelector('.viewer-wrapper');
+
+viewerWrapper.addEventListener('touchstart', e => {
+  touchStartX = e.changedTouches[0].screenX;
+});
+
+viewerWrapper.addEventListener('touchend', e => {
+  touchEndX = e.changedTouches[0].screenX;
+  handleGesture();
+});
+
+function handleGesture() {
+  if (touchEndX < touchStartX - 50) next();
+  if (touchEndX > touchStartX + 50) prev();
+}
+
+// Initial load
+loadImage();
+</script>
+
+</body>
+</html>
