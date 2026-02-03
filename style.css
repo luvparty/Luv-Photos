@@ -27,9 +27,9 @@ header .edition {
 }
 
 header .hint {
-  font-size: 0.9rem;
+  color: #aaa;
+  font-size: 0.95rem;
   margin-top: 4px;
-  opacity: 0.7;
 }
 
 .viewer-wrapper {
@@ -80,7 +80,7 @@ header .hint {
 }
 
 .download-container {
-  margin-top: 15px; /* gap from main image */
+  margin-top: 15px;
 }
 
 .download-btn {
@@ -89,7 +89,7 @@ header .hint {
   padding: 8px 14px;
   border-radius: 6px;
   text-decoration: none;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   transition: background 0.2s;
 }
 
@@ -97,29 +97,29 @@ header .hint {
   background: #912823;
 }
 
-/* Thumbnails grid: 5 per row */
+/* THUMBNAILS GRID */
 .thumbnails {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 10px;
+  grid-template-columns: repeat(5, 1fr); /* 5 per row */
+  gap: 12px; /* spacing between thumbs */
   margin-top: 20px;
-  max-width: 90vw;
-  justify-items: center;
+  max-width: 1000px;
+  width: 80vw;
 }
 
 .thumbnail {
-  width: 80px;
-  height: 60px;
+  width: 100%;
+  aspect-ratio: 4/3; /* keeps all thumbs same size */
   object-fit: cover;
   cursor: pointer;
-  opacity: 0.7;
-  transition: transform 0.2s, opacity 0.2s;
+  opacity: 0.8;
   border: 2px solid transparent;
   border-radius: 6px;
+  transition: transform 0.2s, opacity 0.2s;
 }
 
 .thumbnail:hover {
-  transform: scale(1.1);
+  transform: scale(1.05);
   opacity: 1;
 }
 
@@ -128,15 +128,22 @@ header .hint {
   opacity: 1;
 }
 
+.hint {
+  opacity: 0.6;
+  margin-top: 20px;
+  font-size: 0.9rem;
+}
+
 /* Responsive adjustments */
+@media (max-width: 900px) {
+  .thumbnails {
+    grid-template-columns: repeat(4, 1fr); /* smaller screens: 4 per row */
+  }
+}
+
 @media (max-width: 600px) {
   .main-image-container {
     width: 90vw;
-  }
-
-  .thumbnail {
-    width: 60px;
-    height: 45px;
   }
 
   .nav-btn {
@@ -154,12 +161,11 @@ header .hint {
 
   .download-btn {
     padding: 6px 12px;
-    font-size: 0.8rem;
+    font-size: 0.85rem;
   }
 
-  /* Mobile: maybe 2 thumbnails per row */
   .thumbnails {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr); /* mobile: 3 per row */
     gap: 8px;
   }
 }
