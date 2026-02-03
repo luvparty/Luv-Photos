@@ -87,6 +87,8 @@ function updateThumbnails() {
     thumb.addEventListener('click', () => {
       currentIndex = i;
       loadImage();
+      // Scroll thumbnail into view for mobile
+      thumb.scrollIntoView({behavior: "smooth", block: "nearest", inline: "nearest"});
     });
     thumbsContainer.appendChild(thumb);
   }
