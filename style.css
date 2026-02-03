@@ -26,6 +26,12 @@ header .edition {
   margin-top: -4px;
 }
 
+header .hint {
+  opacity: 0.6;
+  margin-top: 4px; /* moved closer to edition text */
+  font-size: 0.9rem;
+}
+
 .viewer-wrapper {
   display: flex;
   flex-direction: column;
@@ -93,11 +99,9 @@ header .edition {
 
 .thumbnails {
   display: flex;
-  flex-wrap: wrap;
   justify-content: center;
-  gap: 6px;
+  gap: 10px;
   margin-top: 20px;
-  max-width: 90vw;
   overflow-x: auto;
   padding-bottom: 10px;
 }
@@ -108,7 +112,7 @@ header .edition {
   object-fit: cover;
   cursor: pointer;
   opacity: 0.7;
-  transition: transform 0.2s, opacity 0.2s, border-color 0.2s;
+  transition: transform 0.2s, opacity 0.2s;
   border: 2px solid transparent;
   border-radius: 6px;
 }
@@ -121,12 +125,6 @@ header .edition {
 .thumbnail.active {
   border-color: #b63a2c;
   opacity: 1;
-}
-
-.hint {
-  opacity: 0.6;
-  margin-top: 20px;
-  font-size: 0.9rem;
 }
 
 /* Responsive adjustments */
