@@ -31,13 +31,16 @@
 
 <script>
 const baseName = "LUV_220126";
-const totalPhotos = 65;
-
-// CUSTOM ORDER ARRAY
 const customOrder = [
-  25, 1, 14, 31, 34, 41, 43, 2, 7, 15, 42, 54, 61, 32, 48, 55, 58, 65, 63, 4, 56, 64, 44, 11, 8, 13, 3, 5, 6, 9, 10, 12, 16, 18, 62, 19, 17, 21, 22, 23, 24, 20, 27, 26, 30, 28, 35, 29, 33, 37, 36, 38, 39, 40, 45, 46, 47, 49, 50, 51, 52, 53, 59, 60, 57
+  25, 1, 14, 31, 34, 41, 43, 2, 7, 15, 42, 54, 61, 32, 48,
+  55, 58, 65, 63, 4, 56, 64, 44, 11, 8, 13, 3, 5, 6, 9,
+  10, 12, 16, 18, 62, 19, 17, 21, 22, 23, 24, 20, 27,
+  26, 30, 28, 35, 29, 33, 37, 36, 38, 39, 40, 45, 46,
+  47, 49, 50, 51, 52, 53, 59, 60, 57
 ];
 
+const totalPhotos = customOrder.length;
+const VISIBLE_THUMBS = 5;
 let currentIndex = 0;
 
 const img = document.getElementById("viewerImage");
@@ -46,13 +49,13 @@ const downloadBtn = document.getElementById("downloadBtn");
 
 function loadImage() {
   img.style.opacity = 0;
+
   setTimeout(() => {
     const photoNumber = customOrder[currentIndex];
     const fullPath = `photos/full/${baseName} (${photoNumber}).jpg`;
     img.src = fullPath;
     img.style.opacity = 1;
 
-    // Update download button
     downloadBtn.href = fullPath;
     downloadBtn.download = `${baseName} (${photoNumber}).jpg`;
   }, 100);
@@ -76,44 +79,48 @@ function prev() {
 
 function updateThumbnails() {
   thumbsContainer.innerHTML = '';
-  for (let i = 0; i < totalPhotos; i++) {
+
+  const half = Math.floor(VISIBLE_THUMBS / 2);
+  let start = Math.max(0, currentIndex - half);
+  let end = Math.min(totalPhotos - 1, start + VISIBLE_THUMBS - 1);
+
+  if (end - start < VISIBLE_THUMBS - 1) {
+    start = Math.max(0, end - VISIBLE_THUMBS + 1);
+  }
+
+  for (let i = start; i <= end; i++) {
     const thumbNumber = customOrder[i];
     const thumb = document.createElement('img');
+
     thumb.src = `photos/thumbs/${baseName} (${thumbNumber}).jpg`;
     thumb.className = 'thumbnail';
     thumb.loading = 'lazy';
-    thumb.alt = `Photo ${thumbNumber}`;
+
     if (i === currentIndex) thumb.classList.add('active');
-    thumb.addEventListener('click', () => {
+
+    thumb.onclick = () => {
       currentIndex = i;
       loadImage();
-      // Scroll thumbnail into view for mobile
-      thumb.scrollIntoView({behavior: "smooth", block: "nearest", inline: "nearest"});
-    });
+    };
+
     thumbsContainer.appendChild(thumb);
   }
 }
 
-// Mobile swipe support
+/* Mobile swipe */
 let touchStartX = 0;
 let touchEndX = 0;
-const viewerWrapper = document.querySelector('.viewer-wrapper');
 
-viewerWrapper.addEventListener('touchstart', e => {
+document.querySelector('.viewer-wrapper').addEventListener('touchstart', e => {
   touchStartX = e.changedTouches[0].screenX;
 });
 
-viewerWrapper.addEventListener('touchend', e => {
+document.querySelector('.viewer-wrapper').addEventListener('touchend', e => {
   touchEndX = e.changedTouches[0].screenX;
-  handleGesture();
-});
-
-function handleGesture() {
   if (touchEndX < touchStartX - 50) next();
   if (touchEndX > touchStartX + 50) prev();
-}
+});
 
-// Initial load
 loadImage();
 </script>
 
