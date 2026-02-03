@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>LUV Edition 1</title>
+<title>LUV Edition 1. 22.01.26</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -28,67 +28,68 @@
   <div class="thumbnails" id="thumbnails"></div>
 </div>
 
-<p class="hint">Swipe like its Tinder to browse!</p>
+<p class="hint">Swipe like it’s Tinder to browse!</p>
 
 <script>
 const baseName = "LUV_220126";
 const totalPhotos = 65;
-let current = 1;
-const thumbCount = 5;
+
+// CUSTOM ORDER ARRAY
+// Replace these numbers with the order you want
+const customOrder = [
+  25, 1, 14, 31, 34, 41, 43, 2, 7, 15, 42, 54, 61, 32, 48, 55, 58, 57, 63, 4, 56, 64, 44, 11, 8, 13, 3, 5, 6, 9, 10, 12, 16, 18, 62, 19, 17, 21, 22, 23, 24, 20, 27, 26, 30, 28, 35, 29, 33, 37, 36, 38, 39, 40, 45, 46, 47, 49, 50, 51, 52, 53, 59, 60, 65  
+];
+
+let currentIndex = 0; // pointer in customOrder array
 
 const img = document.getElementById("viewerImage");
 const thumbsContainer = document.getElementById("thumbnails");
 const downloadBtn = document.getElementById("downloadBtn");
 
+// Generate thumbnails using custom order
+customOrder.forEach((photoNum, index) => {
+  const thumb = document.createElement('img');
+  thumb.src = `photos/thumbs/${baseName} (${photoNum}).jpg`;
+  thumb.className = 'thumbnail';
+  thumb.loading = 'lazy';
+  thumb.alt = `Photo ${photoNum}`;
+  thumb.addEventListener('click', () => {
+    currentIndex = index;
+    loadImage();
+  });
+  thumbsContainer.appendChild(thumb);
+});
+
 function loadImage() {
+  const photoNum = customOrder[currentIndex];
+
   // Fade effect
   img.style.opacity = 0;
   setTimeout(() => {
-    const fullPath = `photos/full/${baseName} (${current}).jpg`;
+    const fullPath = `photos/full/${baseName} (${photoNum}).jpg`;
     img.src = fullPath;
     img.style.opacity = 1;
 
     // Update download button
     downloadBtn.href = fullPath;
-    downloadBtn.download = `${baseName} (${current}).jpg`;
-  }, 100);
+    downloadBtn.download = `${baseName} (${photoNum}).jpg`;
 
-  updateThumbnails();
+    // Update active thumbnail
+    const allThumbs = document.querySelectorAll('.thumbnail');
+    allThumbs.forEach((t, index) => {
+      t.classList.toggle('active', index === currentIndex);
+    });
+  }, 100);
 }
 
 function next() {
-  if (current < totalPhotos) {
-    current++;
-    loadImage();
-  }
+  currentIndex = (currentIndex + 1) % customOrder.length;
+  loadImage();
 }
 
 function prev() {
-  if (current > 1) {
-    current--;
-    loadImage();
-  }
-}
-
-function updateThumbnails() {
-  thumbsContainer.innerHTML = '';
-  let start = Math.max(current - Math.floor(thumbCount / 2), 1);
-  let end = Math.min(start + thumbCount - 1, totalPhotos);
-  start = Math.max(end - thumbCount + 1, 1);
-
-  for (let i = start; i <= end; i++) {
-    const thumb = document.createElement('img');
-    thumb.src = `photos/thumbs/${baseName} (${i}).jpg`;
-    thumb.className = 'thumbnail';
-    thumb.loading = 'lazy';
-    thumb.alt = `Photo ${i}`;
-    if (i === current) thumb.classList.add('active');
-    thumb.addEventListener('click', () => {
-      current = i;
-      loadImage();
-    });
-    thumbsContainer.appendChild(thumb);
-  }
+  currentIndex = (currentIndex - 1 + customOrder.length) % customOrder.length;
+  loadImage();
 }
 
 // Mobile swipe support
