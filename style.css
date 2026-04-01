@@ -21,7 +21,7 @@ header .logo {
 }
 
 header .edition {
-  color: #b63a2c;
+  color: #c15478;
   font-size: 1.2rem;
   margin-top: -4px;
 }
@@ -65,7 +65,7 @@ header .hint {
 }
 
 .nav-btn {
-  background: #b63a2c;
+  background: #c15478;
   color: white;
   border: none;
   font-size: 28px;
@@ -76,7 +76,7 @@ header .hint {
 }
 
 .nav-btn:hover {
-  background: #912823;
+  background: #c15478;
 }
 
 .download-container {
@@ -84,7 +84,7 @@ header .hint {
 }
 
 .download-btn {
-  background: #b63a2c;
+  background: #c15478;
   color: white;
   padding: 8px 14px;
   border-radius: 6px;
@@ -94,7 +94,7 @@ header .hint {
 }
 
 .download-btn:hover {
-  background: #912823;
+  background: #c15478;
 }
 
 .thumbnails {
@@ -121,7 +121,7 @@ header .hint {
 }
 
 .thumbnail.active {
-  border-color: #b63a2c;
+  border-color: #c15478;
   opacity: 1;
 }
 
